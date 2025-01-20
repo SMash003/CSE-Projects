@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+
 typedef struct {
     int accountNumber;
     char name[50];
@@ -11,6 +12,7 @@ typedef struct {
  char *FILENAME = "Accounts.txt";
  char *OUTPUT_FILE = "Output.txt";
 
+// Function prototypes
 void loadAccounts(Account accounts[], int *count);
 void saveAccountsToFile(const Account accounts[], int count, const char *filename);
 void createAccount(Account accounts[], int *count);
@@ -27,6 +29,7 @@ int main() {
 
 
     loadAccounts(accounts, &count);
+
 
     printf("\n--- Existing Accounts ---\n");
     displayAccounts(accounts, count);
@@ -59,6 +62,7 @@ int main() {
                 searchAccount(accounts, count);
                 break;
             case 6:
+
                 saveAccountsToFile(accounts, count, OUTPUT_FILE);
 
                 copyOutputToAccounts();
@@ -76,6 +80,7 @@ int main() {
 void loadAccounts(Account accounts[], int *count) {
     FILE *file = fopen(FILENAME, "r");
     if (file) {
+        printf("Loading existing accounts from Accounts.txt...\n");
         while (fscanf(file, "%d %s %f %d", &accounts[*count].accountNumber,
                       accounts[*count].name, &accounts[*count].balance,
                       &accounts[*count].pin) == 4) {
@@ -87,7 +92,6 @@ void loadAccounts(Account accounts[], int *count) {
         printf("No existing accounts found in Accounts.txt. Starting with an empty database.\n");
     }
 }
-
 
 void saveAccountsToFile(const Account accounts[], int count, const char *filename) {
     FILE *file = fopen(filename, "w");
@@ -119,14 +123,13 @@ void copyOutputToAccounts() {
     }
 }
 
-
+// Create a new account
 void createAccount(Account accounts[], int *count) {
     printf("\n--- Create Account ---\n");
     Account newAccount;
 
     printf("Enter account number: ");
     scanf("%d", &newAccount.accountNumber);
-
 
     for (int i = 0; i < *count; i++) {
         if (accounts[i].accountNumber == newAccount.accountNumber) {
@@ -135,7 +138,7 @@ void createAccount(Account accounts[], int *count) {
         }
     }
 
-    printf("Enter name: ");
+    printf("Enter name(Use '_' Instead of space ): ");
     scanf(" %[^\n]", newAccount.name);
     printf("Enter initial deposit: ");
     scanf("%f", &newAccount.balance);
@@ -151,8 +154,10 @@ void createAccount(Account accounts[], int *count) {
     accounts[(*count)++] = newAccount;
     printf("Account created successfully!\n");
 
+
     saveAccountsToFile(accounts, *count, OUTPUT_FILE);
 }
+
 
 void displayAccounts(const Account accounts[], int count) {
     printf("\n--- Account List ---\n");
@@ -203,12 +208,14 @@ void updateBalance(Account accounts[], int count, int isDeposit) {
             accounts[i].balance += isDeposit ? amount : -amount;
             printf("Transaction successful! New Balance: %.2f\n", accounts[i].balance);
 
+
             saveAccountsToFile(accounts, count, OUTPUT_FILE);
             return;
         }
     }
     printf("Account not found.\n");
 }
+
 
 void searchAccount(const Account accounts[], int count) {
     int accNo;

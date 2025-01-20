@@ -12,7 +12,7 @@ typedef struct {
  char *FILENAME = "Accounts.txt";
  char *OUTPUT_FILE = "Output.txt";
 
-// Function prototypes
+
 void loadAccounts(Account accounts[], int *count);
 void saveAccountsToFile(const Account accounts[], int count, const char *filename);
 void createAccount(Account accounts[], int *count);
@@ -29,19 +29,14 @@ int main() {
 
 
     loadAccounts(accounts, &count);
-
-
-    printf("\n--- Existing Accounts ---\n");
-    displayAccounts(accounts, count);
-
     do {
         printf("\n--- Banking System Menu ---\n");
-        printf("1. Create Account\n");
-        printf("2. Display Accounts\n");
+        printf("1. Create a New Account\n");
+        printf("2. Display Accounts(Authorized Use Only)\n");
         printf("3. Deposit Money\n");
         printf("4. Withdraw Money\n");
         printf("5. Search Account\n");
-        printf("6. Exit\n");
+        printf("6. Save & Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -123,12 +118,12 @@ void copyOutputToAccounts() {
     }
 }
 
-// Create a new account
+
 void createAccount(Account accounts[], int *count) {
     printf("\n--- Create Account ---\n");
     Account newAccount;
 
-    printf("Enter account number: ");
+    printf("Enter Phone number(Enter number without 0 in front): ");
     scanf("%d", &newAccount.accountNumber);
 
     for (int i = 0; i < *count; i++) {
@@ -160,6 +155,11 @@ void createAccount(Account accounts[], int *count) {
 
 
 void displayAccounts(const Account accounts[], int count) {
+    int key=17122845,User_key;
+
+    printf("Enter Key :");
+    scanf("%d",&User_key);
+    if(key==User_key){
     printf("\n--- Account List ---\n");
     if (count == 0) {
         printf("No accounts found.\n");
@@ -168,6 +168,10 @@ void displayAccounts(const Account accounts[], int count) {
     for (int i = 0; i < count; i++) {
         printf("Account Number: %d | Name: %s | Balance: %.2f\n",
                accounts[i].accountNumber, accounts[i].name, accounts[i].balance);
+    }
+    }
+    else{
+        printf("Wrong key\n");
     }
 }
 
@@ -190,7 +194,7 @@ void updateBalance(Account accounts[], int count, int isDeposit) {
     float amount;
 
     printf("\n--- %s Money ---\n", isDeposit ? "Deposit" : "Withdraw");
-    printf("Enter account number: ");
+    printf("Enter Account number: ");
     scanf("%d", &accNo);
 
     for (int i = 0; i < count; i++) {
@@ -220,7 +224,7 @@ void updateBalance(Account accounts[], int count, int isDeposit) {
 void searchAccount(const Account accounts[], int count) {
     int accNo;
     printf("\n--- Search Account ---\n");
-    printf("Enter account number: ");
+    printf("Enter Account number: ");
     scanf("%d", &accNo);
 
     for (int i = 0; i < count; i++) {
